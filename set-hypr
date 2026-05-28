@@ -252,9 +252,16 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     sudo systemctl enable sddm &>> $INSTLOG
     sleep 2
     
-    # Clean out other portals
+    # Clean out other portals (only if installed)
     echo -e "$CNT - Cleaning out conflicting xdg portals..."
-    yay -R --noconfirm xdg-desktop-portal-gnome xdg-desktop-portal-gtk &>> $INSTLOG
+    for PORTAL_PKG in xdg-desktop-portal-gnome xdg-desktop-portal-gtk; do
+        if yay -Q $PORTAL_PKG &>> /dev/null; then
+            yay -R --noconfirm $PORTAL_PKG &>> $INSTLOG
+            echo -e "$COK - Removed $PORTAL_PKG."
+        else
+            echo -e "$COK - $PORTAL_PKG is not installed, skipping."
+        fi
+    done
 fi
 
 ### Copy Config Files ###
