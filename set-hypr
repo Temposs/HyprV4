@@ -71,7 +71,7 @@ install_stage=(
     noto-fonts-emoji 
     lxappearance 
     xfce4-settings
-    nwg-look
+    nwg-look-bin
     sddm
 )
 
@@ -326,8 +326,7 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     
     # stage the .desktop file
     sudo cp Extras/hyprland.desktop /usr/share/wayland-sessions/
-    cp Extras/start-hypr ~/
-    chmod +x ~/start-hypr
+
     # setup the first look and feel as dark
     xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita-dark"
     xfconf-query -c xsettings -p /Net/IconThemeName -s "Papirus-Dark"
