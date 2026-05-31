@@ -1,0 +1,3 @@
+#!/bin/bash
+# TTY launcher for Hyprland 0.53+ (use start-hyprland wrapper for crash recovery / safe mode)
+exec start-hyprland
