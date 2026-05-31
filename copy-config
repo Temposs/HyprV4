@@ -19,15 +19,9 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
 
     #set the measuring unit
     echo -e "$CNT - Attempring to set mesuring unit..."
-    if locale -a | grep -q ^en_US; then
-        echo -e "$COK - Setting mesuring system to imperial..."
-        ln -sf ~/.config/HyprV/waybar/conf/mesu-imp.jsonc ~/.config/HyprV/waybar/conf/mesu.jsonc
-        sed -i 's/SET_MESU=""/SET_MESU="I"/' ~/.config/HyprV/hyprv.conf
-    else
-        echo -e "$COK - Setting mesuring system to metric..."
-        sed -i 's/SET_MESU=""/SET_MESU="M"/' ~/.config/HyprV/hyprv.conf
-        ln -sf ~/.config/HyprV/waybar/conf/mesu-met.jsonc ~/.config/HyprV/waybar/conf/mesu.jsonc
-    fi
+    echo -e "$COK - Setting mesuring system to metric..."
+    sed -i 's/SET_MESU=""/SET_MESU="M"/' ~/.config/HyprV/hyprv.conf
+    ln -sf ~/.config/HyprV/waybar/conf/mesu-met.jsonc ~/.config/HyprV/waybar/conf/mesu.jsonc
 
     # Setup each appliaction
     # check for existing config folders and backup 
@@ -65,12 +59,6 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     ln -sf ~/.config/HyprV/wofi/style/v4-style-dark.css ~/.config/wofi/style.css
     echo "copied wofi config"
 
-
-    # add the Nvidia env file to the config (if needed)
-    if [[ "$ISNVIDIA" == true ]]; then
-        echo -e "\nsource = ~/.config/hypr/env_var_nvidia.conf" >> ~/.config/hypr/hyprland.conf
-    fi
-
     # Copy the SDDM theme
     echo -e "$CNT - Setting up the login screen."
     sudo cp -R Extras/sdt /usr/share/sddm/themes/
@@ -87,12 +75,11 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     
     # stage the .desktop file
     sudo cp Extras/hyprland.desktop /usr/share/wayland-sessions/
-    cp Extras/start-hypr ~/
-    chmod +x ~/start-hypr
-    # setup the first look and feel as dark
-    xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita-dark"
-    xfconf-query -c xsettings -p /Net/IconThemeName -s "Papirus-Dark"
-    gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
-    gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
+    # cp Extras/start-hypr ~/
+    # chmod +x ~/start-hypr
+    # setup the first look and feel as dark (no D-Bus required)
+    chmod +x ~/.config/HyprV/set-gtk-theme
+    ~/.config/HyprV/set-gtk-theme Adwaita-dark Papirus-Dark
+    echo "GTK dark theme configured."
     cp -f ~/.config/HyprV/backgrounds/v4-background-dark.jpg /usr/share/sddm/themes/sdt/wallpaper.jpg
 fi

@@ -16,17 +16,12 @@ get_theme() {
 }
 
 update_theme() {
-    #set the xfce and GTK theme
     if [[ $VER == "v4" || $VERTO == "v4-" ]]; then
-        xfconf-query -c xsettings -p /Net/IconThemeName -s "Papirus-Dark"
-        gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
-    else 
-        xfconf-query -c xsettings -p /Net/IconThemeName -s "Adwaita$SWITCHTO"
-        gsettings set org.gnome.desktop.interface icon-theme "Adwaita$SWITCHTO"
+        ICON="Papirus-Dark"
+    else
+        ICON="Adwaita$SWITCHTO"
     fi
-
-    xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita$SWITCHTO"
-    gsettings set org.gnome.desktop.interface gtk-theme "Adwaita$SWITCHTO"
+    ~/.config/HyprV/set-gtk-theme "Adwaita$SWITCHTO" "$ICON"
 }
 
 get_ver() {

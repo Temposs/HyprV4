@@ -338,11 +338,10 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     sudo cp Extras/hyprland.desktop /usr/share/wayland-sessions/
     cp Extras/start-hypr ~/
     chmod +x ~/start-hypr
-    # setup the first look and feel as dark
-    xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita-dark"
-    xfconf-query -c xsettings -p /Net/IconThemeName -s "Papirus-Dark"
-    gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
-    gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
+    # setup the first look and feel as dark (no D-Bus required)
+    chmod +x ~/.config/HyprV/set-gtk-theme
+    ~/.config/HyprV/set-gtk-theme Adwaita-dark Papirus-Dark
+    echo -e "$COK - GTK dark theme configured."
     cp -f ~/.config/HyprV/backgrounds/v4-background-dark.jpg /usr/share/sddm/themes/sdt/wallpaper.jpg
 fi
 
